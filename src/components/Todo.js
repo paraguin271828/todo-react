@@ -37,7 +37,7 @@ export default function Todo({
   }
 
   function deleteTodo() {
-    arrayOfData.splice(index, 1);
+    // arrayOfData.splice(index, 1);
   }
   return (
     <div id={"todo" + id} className="todo-wrapper">

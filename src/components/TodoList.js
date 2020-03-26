@@ -90,7 +90,7 @@ export default function TodoList() {
       <div id="addTodo">
         <form onSubmit={addTodo}>
           <button id="cancelButton" onClick={cancelTodo}><i className="fa fa-remove fa-2x"></i></button>
-          <input type="text" placeholder="Todo Title" value={newTitle} onChange={handleNewTitle} />
+          <input type="text" required placeholder="Todo Title" value={newTitle} onChange={handleNewTitle} />
           <textarea placeholder="Todo Desciption" value={newDescription} onChange={handleNewDescription} />
           <button className="btn btn-lg btn-success" type="submit">Add Todo</button>
         </form>

@@ -27,9 +27,10 @@ export default function Todo({
     const valueProp = document.getElementById(id);
     valueProp.disabled = editMode;
   }
-  function editTodo(value) {
+  function editTodo(value, element) {
     console.log("Clicked on edit");
-    setDetails({ todoValue: value.trim() });
+    setDetails({ element: value.trim() });
+    console.log(todoDetails);
   }
   function markDone() {
     doneState ? setDone(false) : setDone(true);
@@ -47,11 +48,11 @@ export default function Todo({
         <h5>
           <input
             type="text"
-            value={todoDetails.todoValue}
+            defaultValue={todoDetails.todoValue} 
             id={"title" + id}
             className={doneState ? "done" : ""}
-            onChange={el => editTodo(el.target.value)}
-            disabled
+            onChange={el => editTodo(el.target.value, 'todoValue')}
+            disabled 
           />
           <i
             className={editIcon}
@@ -64,10 +65,10 @@ export default function Todo({
         <div className="todo-description">
           <input
             type="text"
-            value={todoDetails.todoDescription}
+            defaultValue={todoDetails.todoDescription}
             id={"description" + id}
             className={doneState ? "done" : ""}
-            onChange={el => editTodo(el.target.value)}
+            onChange={el => editTodo(el.target.value, 'todoDescription')}
             disabled
           />
           <i

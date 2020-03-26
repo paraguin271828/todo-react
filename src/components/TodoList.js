@@ -4,7 +4,7 @@ import "../styles/Todolist.css";
 import "../styles/Todo.css";
 
 export default function TodoList() {
-  const arrayOfData = [
+  const [arrayOfData, setData] = useState([
     {
       value: "Finish group work assignment",
       date: new Date().toLocaleDateString(),
@@ -23,9 +23,39 @@ export default function TodoList() {
       description: "",
       isDone: false
     }
-  ];
-  function addTodo() {
-    alert("Clicked on Add new To Do");
+  ]);
+
+  const [newTitle, setTitle] = useState('');
+  const [newDescription, setDescription] = useState('');
+
+  function handleNewTitle (event) {
+    setTitle(event.target.value);
+  }
+  function handleNewDescription (event) {
+    setDescription(event.target.value);
+  }
+
+  function openTodoModal() {
+    document.getElementById('addTodo').classList.add('enabled');
+  }
+
+  function cancelTodo(event) {
+    event.preventDefault();
+    document.getElementById('addTodo').classList.remove('enabled');
+  }
+
+  function addTodo (event) {
+    event.preventDefault();
+    console.log('Add new Todo');
+    setData([...arrayOfData,
+      {
+        value: newTitle,
+        date: new Date().toLocaleDateString(),
+        description: newDescription,
+        isDone: false
+      }]);
+      console.log(arrayOfData);
+    document.getElementById('addTodo').classList.remove('enabled');
   }
 
   const getToDoList = arrayOfData.map((element, index) => {
@@ -48,15 +78,23 @@ export default function TodoList() {
         <div className="header-menu">
           <h1>To Do List</h1>
           <button
-            onClick={addTodo}
+            onClick={openTodoModal}
             type="button"
             className="btn btn-secondary button-todo"
-          >
+          ><i className="fa fa-plus"></i>
             Add new To Do
           </button>
         </div>
       </div>
-      <div>{getToDoList}</div>
+      <div id="todoList">{getToDoList}</div>
+      <div id="addTodo">
+        <form onSubmit={addTodo}>
+          <button id="cancelButton" onClick={cancelTodo}><i className="fa fa-remove fa-2x"></i></button>
+          <input type="text" placeholder="Todo Title" value={newTitle} onChange={handleNewTitle} />
+          <textarea placeholder="Todo Desciption" value={newDescription} onChange={handleNewDescription} />
+          <button className="btn btn-lg btn-success" type="submit">Add Todo</button>
+        </form>
+      </div>
     </div>
   );
 }

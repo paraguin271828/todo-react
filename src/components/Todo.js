@@ -81,7 +81,7 @@ export default function Todo({
             type="button"
             className="btn btn-secondary button-todo btn btn-danger"
           >
-            <i class="fa fa-trash-o fa-lg" /> Delete
+            <i className="fa fa-trash-o fa-lg" /> Delete
           </button>
         </div>
       </div>

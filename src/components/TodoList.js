@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Todo from "./Todo";
 import "../styles/Todolist.css";
 import "../styles/Todo.css";
@@ -58,6 +58,17 @@ export default function TodoList() {
     document.getElementById('addTodo').classList.remove('enabled');
   }
 
+  function deleteTodo (item) {
+      console.log(`ID of item to delete: ${item}`);
+      const newArray = Array.from(arrayOfData);
+      const filteredArray = newArray.filter((_, i) => i !== item);
+      setData(filteredArray);
+      console.log(filteredArray);
+      console.log(`filtered array: ${filteredArray}`);
+  }
+
+  useEffect(() => {}, [arrayOfData]);
+
   const getToDoList = arrayOfData.map((element, index) => {
     // Map returns an array at then
     return (
@@ -68,6 +79,7 @@ export default function TodoList() {
         dateProperty={element.date}
         descriptionProperty={element.description}
         doneProperty={element.isDone}
+        deleteTodo={deleteTodo}
       />
     );
   });

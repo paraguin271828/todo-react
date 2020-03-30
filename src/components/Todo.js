@@ -8,27 +8,50 @@ export default function Todo({
   id,
   dateProperty,
   descriptionProperty,
-  doneProperty
+  doneProperty,
+  deleteTodo
 }) {
   const [todoDetails, setDetails] = useState({
     todoValue: value,
     todoDescription: descriptionProperty
   });
 
-  const [editMode, setEdit] = useState(false);
-  const [editIcon, setEditIcon] = useState("fa fa-pencil fa-fw");
+  const [editMode, setEdit] = useState(
+    {
+      title: false,
+      descr: false
+    }
+  );
+  const [editIcon, setEditIcon] = useState(
+    {
+      title: "fa fa-pencil fa-fw",
+      descr: "fa fa-pencil fa-fw"
+    }
+  );
 
   const [doneState, setDone] = useState(doneProperty);
 
-  function toggleEdit(el, id) {
-    setEdit(editMode ? false : true);
-    setEditIcon(editMode ? "fa fa-pencil fa-fw" : "fa fa-check fa-fw");
+  function toggleEdit(e, id, elT) {
+    e.preventDefault();
+
+    let editModeState = {...editMode};
+    let editIconState = {...editIcon};
+
+    editModeState[elT] = !editMode[elT];
+    editIconState[elT] = editMode[elT] ? "fa fa-pencil fa-fw" : "fa fa-check fa-fw";
+
+    setEdit(editModeState);
+    setEditIcon(editIconState)
+
+    console.log(editMode);
+    console.log(editIcon);
 
     const valueProp = document.getElementById(id);
-    valueProp.disabled = editMode;
+    valueProp.disabled = editMode[elT];
   }
   function editTodo(value, element) {
     console.log("Clicked on edit");
+    if (value.trim() === '') console.log("Empty title not allowed");
     setDetails({ element: value.trim() });
     console.log(todoDetails);
   }
@@ -37,32 +60,32 @@ export default function Todo({
     // alert("Clicked on Mark Done: " + value + " " + doneState);
   }
 
-  function deleteTodo() {
-    // arrayOfData.splice(index, 1);
-  }
   return (
     <div id={"todo" + id} className="todo-wrapper">
       <div className="todo-title-date">
         <input type="checkbox" id={"check" + id} onClick={markDone} />
         <label htmlFor={"check" + id} />
         <h5>
+        <form onSubmit={el => toggleEdit(el, "title" +
+         id, 'title')}>
           <input
             type="text"
-            defaultValue={todoDetails.todoValue} 
+            defaultValue={todoDetails.todoValue}
             id={"title" + id}
             className={doneState ? "done" : ""}
             onChange={el => editTodo(el.target.value, 'todoValue')}
-            disabled 
+            disabled required
           />
-          <i
-            className={editIcon}
-            onClick={el => toggleEdit(el.target, "title" + id)}
-          />
+          <button type="submit">
+          <i className={editIcon.title} />
+          </button>
+        </form>
         </h5>
         <span>Created on: {dateProperty}</span>
       </div>
       <div className="description-wrapper">
         <div className="todo-description">
+          <form onSubmit={el => toggleEdit(el, "description" + id, 'descr')}>
           <input
             type="text"
             defaultValue={todoDetails.todoDescription}
@@ -71,14 +94,14 @@ export default function Todo({
             onChange={el => editTodo(el.target.value, 'todoDescription')}
             disabled
           />
-          <i
-            className={editIcon}
-            onClick={el => toggleEdit(el.target, "description" + id)}
-          />
+          <button type="submit">
+            <i className={editIcon.descr} />
+           </button>
+          </form>
         </div>
         <div className="function-buttons">
           <button
-            onClick={deleteTodo}
+            onClick={() => {deleteTodo(id)}}
             type="button"
             className="btn btn-secondary button-todo btn btn-danger"
           >

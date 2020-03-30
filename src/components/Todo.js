@@ -8,7 +8,8 @@ export default function Todo({
   id,
   dateProperty,
   descriptionProperty,
-  doneProperty
+  doneProperty,
+  deleteTodo
 }) {
   const [todoDetails, setDetails] = useState({
     todoValue: value,
@@ -32,15 +33,21 @@ export default function Todo({
 
   function toggleEdit(e, id, elT) {
     e.preventDefault();
-    const editStage = editMode[elT];
-    console.log("edit: "+editMode[elT]);
-    console.log("elT: " + elT);
-    //setEdit({elT: editMode[elT]});
-    setEdit({title: true});
-    //setEditIcon(elT: editMode[elT] ? "fa fa-pencil fa-fw" : "fa fa-check fa-fw");
+
+    let editModeState = {...editMode};
+    let editIconState = {...editIcon};
+
+    editModeState[elT] = !editMode[elT];
+    editIconState[elT] = editMode[elT] ? "fa fa-pencil fa-fw" : "fa fa-check fa-fw";
+
+    setEdit(editModeState);
+    setEditIcon(editIconState)
+
+    console.log(editMode);
+    console.log(editIcon);
 
     const valueProp = document.getElementById(id);
-    valueProp.disabled = editMode;
+    valueProp.disabled = editMode[elT];
   }
   function editTodo(value, element) {
     console.log("Clicked on edit");
@@ -53,9 +60,6 @@ export default function Todo({
     // alert("Clicked on Mark Done: " + value + " " + doneState);
   }
 
-  function deleteTodo() {
-    // arrayOfData.splice(index, 1);
-  }
   return (
     <div id={"todo" + id} className="todo-wrapper">
       <div className="todo-title-date">
@@ -66,11 +70,11 @@ export default function Todo({
          id, 'title')}>
           <input
             type="text"
-            defaultValue={todoDetails.todoValue} 
+            defaultValue={todoDetails.todoValue}
             id={"title" + id}
             className={doneState ? "done" : ""}
             onChange={el => editTodo(el.target.value, 'todoValue')}
-            disabled required 
+            disabled required
           />
           <button type="submit">
           <i className={editIcon.title} />
@@ -97,7 +101,7 @@ export default function Todo({
         </div>
         <div className="function-buttons">
           <button
-            onClick={deleteTodo}
+            onClick={() => {deleteTodo(id)}}
             type="button"
             className="btn btn-secondary button-todo btn btn-danger"
           >

@@ -12,3 +12,6 @@ A simple Express backend with a REST API and a database connection could be impl
 
 For icons the ForkAwesome project is used.
 https://forkaweso.me
+
+With the help of the GH-Pages Node module, the app can be tested on Github Pages.
+https://paraguin271828.github.io/todo-react/

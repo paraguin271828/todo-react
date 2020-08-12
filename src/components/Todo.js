@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "../styles/Todo.css";
-import "../Fork-Awesome-1.1.7/css/fork-awesome.min.css";
 import TodoList from "./TodoList";
 
 export default function Todo({
